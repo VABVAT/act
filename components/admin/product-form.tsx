@@ -1,13 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { startTransition, useEffect, useState } from "react";
-import { useActionState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
-import { createProductAction, updateProductAction } from "@/app/actions/admin";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { FormField, FormNote } from "@/components/ui/form-field";
@@ -15,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import type { CategoryRecord, ProductRecord } from "@/lib/data/types";
-import { initialActionState } from "@/lib/utils/action-state";
+import { initialActionState, type ActionState } from "@/lib/utils/action-state";
 
 type ProductFormProps = {
   categories: CategoryRecord[];
@@ -24,10 +22,8 @@ type ProductFormProps = {
 
 export function ProductForm({ categories, product }: ProductFormProps) {
   const router = useRouter();
-  const action = product
-    ? updateProductAction.bind(null, product.id)
-    : createProductAction;
-  const [state, formAction, isPending] = useActionState(action, initialActionState);
+  const [state, setState] = useState<ActionState>(initialActionState);
+  const [isPending, setIsPending] = useState(false);
   const [sizes, setSizes] = useState(
     product?.sizes.length
       ? product.sizes.map((size) => ({
@@ -41,21 +37,49 @@ export function ProductForm({ categories, product }: ProductFormProps) {
     product?.images.map((image) => image.imageUrl) ?? [],
   );
 
-  useEffect(() => {
-    if (state.status === "success") {
-      toast.success(state.message || "Product saved.");
-      window.location.assign("/admin/products");
-    }
-  }, [state]);
-
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const submittedFormData = new FormData(event.currentTarget);
+    setIsPending(true);
+    setState(initialActionState);
 
-    startTransition(() => {
-      formAction(submittedFormData);
-    });
+    try {
+      const submittedFormData = new FormData(event.currentTarget);
+      const endpoint = product
+        ? `/api/admin/products/${product.id}`
+        : "/api/admin/products";
+      const response = await fetch(endpoint, {
+        body: submittedFormData,
+        credentials: "same-origin",
+        method: product ? "PATCH" : "POST",
+      });
+
+      const result = (await response.json().catch(() => null)) as ActionState | null;
+
+      if (response.ok && result?.status === "success") {
+        toast.success(result.message || "Product saved.");
+        window.location.assign("/admin/products");
+        return;
+      }
+
+      const nextState: ActionState = result ?? {
+        status: "error",
+        message: "Unable to save product right now.",
+      };
+
+      setState(nextState);
+      toast.error(nextState.message || "Unable to save product right now.");
+    } catch {
+      const nextState: ActionState = {
+        status: "error",
+        message: "Something went wrong while saving the product.",
+      };
+
+      setState(nextState);
+      toast.error(nextState.message);
+    } finally {
+      setIsPending(false);
+    }
   }
 
   return (
