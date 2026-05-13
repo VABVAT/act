@@ -24,13 +24,22 @@ export function SiteHeader({
           <HeaderSearchForm />
           <div className="flex items-center gap-3">
             {isAdmin ? (
-              <Link
-                href="/admin"
-                className="hidden rounded-full border border-line bg-white/70 px-4 py-2 text-sm font-semibold text-foreground hover:border-brand/30 hover:bg-brand-soft/35 md:inline-flex"
-              >
-                <LayoutDashboard className="mr-2 size-4" />
-                Dashboard
-              </Link>
+              <>
+                <Link
+                  href="/admin"
+                  className="inline-flex size-11 items-center justify-center rounded-full border border-line bg-white/70 text-foreground hover:border-brand/30 hover:bg-brand-soft/35 md:hidden"
+                  aria-label="Admin dashboard"
+                >
+                  <LayoutDashboard className="size-4" />
+                </Link>
+                <Link
+                  href="/admin"
+                  className="hidden rounded-full border border-line bg-white/70 px-4 py-2 text-sm font-semibold text-foreground hover:border-brand/30 hover:bg-brand-soft/35 md:inline-flex"
+                >
+                  <LayoutDashboard className="mr-2 size-4" />
+                  Dashboard
+                </Link>
+              </>
             ) : null}
             <Link
               href="/wishlist"
