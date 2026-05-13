@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { startTransition, useEffect, useState } from "react";
 import { useActionState } from "react";
 import { useRouter } from "next/navigation";
 import { Plus, Trash2 } from "lucide-react";
@@ -27,7 +27,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
   const action = product
     ? updateProductAction.bind(null, product.id)
     : createProductAction;
-  const [state, formAction] = useActionState(action, initialActionState);
+  const [state, formAction, isPending] = useActionState(action, initialActionState);
   const [sizes, setSizes] = useState(
     product?.sizes.length
       ? product.sizes.map((size) => ({
@@ -44,12 +44,22 @@ export function ProductForm({ categories, product }: ProductFormProps) {
   useEffect(() => {
     if (state.status === "success") {
       toast.success(state.message || "Product saved.");
-      router.push("/admin/products");
+      window.location.assign("/admin/products");
     }
-  }, [router, state]);
+  }, [state]);
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const submittedFormData = new FormData(event.currentTarget);
+
+    startTransition(() => {
+      formAction(submittedFormData);
+    });
+  }
 
   return (
-    <form action={formAction} className="grid gap-6 pb-28 md:pb-0">
+    <form className="grid gap-6 pb-28 md:pb-0" onSubmit={handleSubmit}>
         <Card className="grid gap-5">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.32em] text-brand">
@@ -141,6 +151,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
               <p className="text-sm text-muted">Track quantity for each size.</p>
             </div>
             <Button
+              disabled={isPending}
               size="sm"
               variant="secondary"
               onClick={() =>
@@ -245,10 +256,11 @@ export function ProductForm({ categories, product }: ProductFormProps) {
         ) : null}
 
         <div className="hidden flex-wrap gap-3 md:flex">
-          <Button size="lg" type="submit">
-            {product ? "Update product" : "Create product"}
+          <Button disabled={isPending} size="lg" type="submit">
+            {isPending ? "Saving..." : product ? "Update product" : "Create product"}
           </Button>
           <Button
+            disabled={isPending}
             size="lg"
             type="button"
             variant="secondary"
@@ -261,11 +273,17 @@ export function ProductForm({ categories, product }: ProductFormProps) {
         <div className="fixed inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+1rem)] z-40 md:hidden">
           <div className="content-wrap">
             <div className="surface-card flex items-center gap-3 rounded-[26px] border border-line/70 p-3 shadow-[0_24px_70px_rgba(120,84,60,0.2)] backdrop-blur-xl">
-              <Button className="min-w-0 flex-1" size="lg" type="submit">
-                {product ? "Update product" : "Create product"}
+              <Button
+                className="min-w-0 flex-1"
+                disabled={isPending}
+                size="lg"
+                type="submit"
+              >
+                {isPending ? "Saving..." : product ? "Update product" : "Create product"}
               </Button>
               <Button
                 className="min-w-0 flex-1"
+                disabled={isPending}
                 size="lg"
                 type="button"
                 variant="secondary"
