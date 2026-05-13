@@ -71,6 +71,10 @@ export async function signupAction(
     phone: formData.get("phone"),
     password: formData.get("password"),
   });
+  const nextPath =
+    typeof formData.get("next") === "string" && formData.get("next")
+      ? String(formData.get("next"))
+      : "/";
 
   if (!parsed.success) {
     return actionError("Please fix the highlighted fields.", parsed.error.flatten().fieldErrors);
@@ -81,7 +85,7 @@ export async function signupAction(
     email: parsed.data.email,
     password: parsed.data.password,
     options: {
-      emailRedirectTo: `${getSiteUrl()}/auth/confirm?next=/`,
+      emailRedirectTo: `${getSiteUrl()}/auth/confirm?next=${encodeURIComponent(nextPath)}`,
       data: {
         full_name: parsed.data.fullName,
         phone: parsed.data.phone,
@@ -96,7 +100,7 @@ export async function signupAction(
   return {
     status: "success",
     message:
-      "Account created. Check your email if confirmation is enabled, otherwise you can sign in right away.",
+      "Your account has been created. We have sent a confirmation link to your email address. Open the email and press the button inside it to continue to Arteez Collection.",
   };
 }
 
@@ -129,7 +133,8 @@ export async function forgotPasswordAction(
 
   return {
     status: "success",
-    message: "Password reset instructions have been sent to your email.",
+    message:
+      "We have sent a password reset link to your email address. Open the email and press the button inside it to continue.",
   };
 }
 

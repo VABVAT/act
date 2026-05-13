@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confirm your Arteez Collection account</title>
+  </head>
+  <body style="margin:0;padding:0;background:#f7f0e4;font-family:'Segoe UI',Arial,sans-serif;color:#271d1a;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f7f0e4;padding:32px 16px;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:620px;background:#fffaf4;border-radius:28px;overflow:hidden;border:1px solid rgba(82,52,40,0.12);">
+            <tr>
+              <td style="padding:40px 40px 24px;background:linear-gradient(135deg,#f9f2e5 0%,#f2d7c6 100%);">
+                <div style="font-size:12px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:#9a4f38;">Arteez Collection</div>
+                <h1 style="margin:18px 0 0;font-size:38px;line-height:1.05;font-weight:700;font-family:Georgia,'Times New Roman',serif;color:#271d1a;">
+                  Confirm your account
+                </h1>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:32px 40px 40px;">
+                <p style="margin:0 0 16px;font-size:16px;line-height:1.8;color:#6f5c54;">
+                  Thank you for creating your Arteez Collection account.
+                </p>
+                <p style="margin:0 0 16px;font-size:16px;line-height:1.8;color:#6f5c54;">
+                  We received a request to create an account for <strong style="color:#271d1a;">{{ .Email }}</strong>.
+                  Please press the button below to confirm your email address and continue to Arteez Collection.
+                </p>
+                <table role="presentation" cellspacing="0" cellpadding="0" style="margin:28px 0;">
+                  <tr>
+                    <td>
+                      <a
+                        href="{{ .ConfirmationURL }}"
+                        style="display:inline-block;padding:15px 28px;border-radius:999px;background:#9a4f38;color:#ffffff;text-decoration:none;font-size:15px;font-weight:700;"
+                      >
+                        Confirm Email &amp; Continue
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+                <p style="margin:0 0 12px;font-size:15px;line-height:1.8;color:#6f5c54;">
+                  After you confirm, you will be taken back to Arteez Collection so you can continue signing in and shopping.
+                </p>
+                <p style="margin:0 0 24px;font-size:15px;line-height:1.8;color:#6f5c54;">
+                  If the button does not work, copy and paste this link into your browser:
+                </p>
+                <p style="margin:0 0 24px;padding:14px 16px;border-radius:18px;background:#f7f0e4;font-size:13px;line-height:1.7;word-break:break-all;color:#6f5c54;">
+                  {{ .ConfirmationURL }}
+                </p>
+                <p style="margin:0;font-size:14px;line-height:1.8;color:#8c776f;">
+                  If you did not create this account, you can safely ignore this email.
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

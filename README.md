@@ -63,7 +63,7 @@ Arteez Collection is a production-ready women’s suit marketplace built with Ne
 
 ## Required Environment Variables
 
-- `NEXT_PUBLIC_SITE_URL`: public site URL, for example `http://localhost:3000`
+- `NEXT_PUBLIC_SITE_URL`: public site URL, for example `https://arteezcollection.in`
 - `NEXT_PUBLIC_SUPABASE_URL`: Supabase project URL
 - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`: Supabase publishable anon key
 - `SUPABASE_SECRET_KEY`: Supabase secret/service-role key for admin operations and webhooks
@@ -78,6 +78,12 @@ Arteez Collection is a production-ready women’s suit marketplace built with Ne
 - Product images are stored in a public `products` storage bucket.
 - Inventory is tracked per size in `public.product_sizes`; product stock is synced automatically by trigger.
 - Pending orders reserve inventory through the `create_pending_order` RPC and failed payments release inventory with `release_inventory_for_order`.
+- In Supabase Auth URL Configuration, set the Site URL to `https://arteezcollection.in` and allow redirects for `https://arteezcollection.in/auth/confirm`.
+
+## Email Templates
+
+- A ready-to-paste confirmation template is included at [`supabase/email-templates/confirm-signup.html`](/Users/sid/Webstorm/ac/supabase/email-templates/confirm-signup.html).
+- Supabase dashboard setup notes are included at [`supabase/email-templates/README.md`](/Users/sid/Webstorm/ac/supabase/email-templates/README.md).
 
 ## Payment Flow
 

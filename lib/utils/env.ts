@@ -1,7 +1,18 @@
-const LOCAL_SITE_URL = "http://localhost:3000";
+const LOCAL_SITE_URL = "https://arteezcollection.in";
+const PRODUCTION_SITE_URL = "https://arteezcollection.in";
 
 export function getSiteUrl() {
-  return process.env.NEXT_PUBLIC_SITE_URL || LOCAL_SITE_URL;
+  let url =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (process.env.NODE_ENV === "development"
+      ? LOCAL_SITE_URL
+      : PRODUCTION_SITE_URL);
+
+  if (!url.startsWith("http")) {
+    url = `https://${url}`;
+  }
+
+  return url.endsWith("/") ? url.slice(0, -1) : url;
 }
 
 export function getWhatsAppNumber() {
