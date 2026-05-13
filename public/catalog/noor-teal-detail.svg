@@ -1,0 +1,34 @@
+<svg width="1200" height="1400" viewBox="0 0 1200 1400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="140" y1="100" x2="1050" y2="1300" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F0FAF8"/>
+      <stop offset="1" stop-color="#C5E2DE"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="286" y1="236" x2="914" y2="1164" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#309797"/>
+      <stop offset="1" stop-color="#1A6668"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1400" rx="44" fill="url(#bg)"/>
+  <rect x="240" y="180" width="720" height="1040" rx="42" fill="#DCEFED"/>
+  <rect x="286" y="236" width="628" height="928" rx="32" fill="url(#panel)"/>
+  <path d="M600 288V1112" stroke="#DDF5E7" stroke-width="14" stroke-linecap="round" stroke-dasharray="4 24"/>
+  <path d="M338 356C456 308 744 308 862 356" stroke="#DDF5E7" stroke-width="12" stroke-linecap="round"/>
+  <path d="M344 472C462 424 738 424 856 472" stroke="#DDF5E7" stroke-width="10" stroke-linecap="round" stroke-dasharray="5 20"/>
+  <path d="M344 588C462 540 738 540 856 588" stroke="#DDF5E7" stroke-width="10" stroke-linecap="round" stroke-dasharray="5 20"/>
+  <path d="M344 704C462 656 738 656 856 704" stroke="#DDF5E7" stroke-width="10" stroke-linecap="round" stroke-dasharray="5 20"/>
+  <path d="M344 820C462 772 738 772 856 820" stroke="#DDF5E7" stroke-width="10" stroke-linecap="round" stroke-dasharray="5 20"/>
+  <path d="M344 936C462 888 738 888 856 936" stroke="#DDF5E7" stroke-width="10" stroke-linecap="round" stroke-dasharray="5 20"/>
+  <g fill="#F1E9C8">
+    <circle cx="424" cy="420" r="20"/>
+    <circle cx="776" cy="420" r="20"/>
+    <circle cx="496" cy="548" r="20"/>
+    <circle cx="704" cy="548" r="20"/>
+    <circle cx="424" cy="676" r="20"/>
+    <circle cx="776" cy="676" r="20"/>
+    <circle cx="496" cy="804" r="20"/>
+    <circle cx="704" cy="804" r="20"/>
+    <circle cx="424" cy="932" r="20"/>
+    <circle cx="776" cy="932" r="20"/>
+  </g>
+</svg>

@@ -1,0 +1,34 @@
+<svg width="1200" height="1400" viewBox="0 0 1200 1400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="170" y1="120" x2="1040" y2="1320" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF7EE"/>
+      <stop offset="1" stop-color="#E5D5B6"/>
+    </linearGradient>
+    <linearGradient id="dress" x1="600" y1="204" x2="600" y2="1090" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF9F0"/>
+      <stop offset="1" stop-color="#EEDDBE"/>
+    </linearGradient>
+    <linearGradient id="dupatta" x1="260" y1="340" x2="900" y2="980" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF4D1" stop-opacity="0.92"/>
+      <stop offset="1" stop-color="#FBE2A4" stop-opacity="0.78"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1400" rx="44" fill="url(#bg)"/>
+  <circle cx="600" cy="420" r="390" fill="#FFF3D2" fill-opacity="0.55"/>
+  <path d="M520 214C500 224 464 264 450 332C438 390 456 470 492 566L362 906C332 986 392 1072 500 1096C554 1108 600 1110 600 1110C600 1110 646 1108 700 1096C808 1072 868 986 838 906L708 566C744 470 762 390 750 332C736 264 700 224 680 214C652 202 626 198 600 198C574 198 548 202 520 214Z" fill="url(#dress)"/>
+  <path d="M504 214C528 184 566 164 600 164C634 164 672 184 696 214C676 230 644 240 600 240C556 240 524 230 504 214Z" fill="#D7BA9E"/>
+  <path d="M420 360C420 360 492 424 600 430C708 436 780 360 780 360" stroke="#C9A45E" stroke-width="16" stroke-linecap="round"/>
+  <path d="M600 300V936" stroke="#D3B071" stroke-width="10" stroke-linecap="round" stroke-dasharray="4 26"/>
+  <path d="M300 338C300 338 422 546 600 664C778 782 900 1048 900 1048" stroke="url(#dupatta)" stroke-width="70" stroke-linecap="round"/>
+  <path d="M298 338C298 338 330 384 360 430C392 476 454 558 600 664C746 770 808 850 840 896C870 942 902 990 902 990" stroke="#E4BC63" stroke-width="8" stroke-linecap="round" stroke-dasharray="3 24"/>
+  <g fill="#CDA45C">
+    <circle cx="472" cy="470" r="18"/>
+    <circle cx="728" cy="470" r="18"/>
+    <circle cx="600" cy="590" r="18"/>
+  </g>
+  <g stroke="#D2AF73" stroke-width="6">
+    <path d="M420 1070C456 1044 502 1038 546 1050"/>
+    <path d="M546 1062C582 1036 628 1030 672 1042"/>
+    <path d="M672 1070C708 1044 754 1038 798 1050"/>
+  </g>
+</svg>
