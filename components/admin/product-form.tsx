@@ -24,7 +24,6 @@ type ProductFormProps = {
 
 export function ProductForm({ categories, product }: ProductFormProps) {
   const router = useRouter();
-  const formId = product ? `product-form-${product.id}` : "product-form-new";
   const action = product
     ? updateProductAction.bind(null, product.id)
     : createProductAction;
@@ -50,8 +49,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
   }, [router, state]);
 
   return (
-    <>
-      <form id={formId} action={formAction} className="grid gap-6 pb-28 md:pb-0">
+    <form action={formAction} className="grid gap-6 pb-28 md:pb-0">
         <Card className="grid gap-5">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.32em] text-brand">
@@ -259,26 +257,26 @@ export function ProductForm({ categories, product }: ProductFormProps) {
             Cancel
           </Button>
         </div>
-      </form>
 
-      <div className="fixed inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+1rem)] z-40 md:hidden">
-        <div className="content-wrap">
-          <div className="surface-card flex items-center gap-3 rounded-[26px] border border-line/70 p-3 shadow-[0_24px_70px_rgba(120,84,60,0.2)] backdrop-blur-xl">
-            <Button className="min-w-0 flex-1" form={formId} size="lg" type="submit">
-              {product ? "Update product" : "Create product"}
-            </Button>
-            <Button
-              className="min-w-0 flex-1"
-              size="lg"
-              type="button"
-              variant="secondary"
-              onClick={() => router.push("/admin/products")}
-            >
-              Cancel
-            </Button>
+        <div className="fixed inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+1rem)] z-40 md:hidden">
+          <div className="content-wrap">
+            <div className="surface-card flex items-center gap-3 rounded-[26px] border border-line/70 p-3 shadow-[0_24px_70px_rgba(120,84,60,0.2)] backdrop-blur-xl">
+              <Button className="min-w-0 flex-1" size="lg" type="submit">
+                {product ? "Update product" : "Create product"}
+              </Button>
+              <Button
+                className="min-w-0 flex-1"
+                size="lg"
+                type="button"
+                variant="secondary"
+                onClick={() => router.push("/admin/products")}
+              >
+                Cancel
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
-    </>
+
+      </form>
   );
 }
