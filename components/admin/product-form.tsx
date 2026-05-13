@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import type { CategoryRecord, ProductRecord } from "@/lib/data/types";
+import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 import { initialActionState, type ActionState } from "@/lib/utils/action-state";
 
 type ProductFormProps = {
@@ -20,10 +21,36 @@ type ProductFormProps = {
   product?: ProductRecord | null;
 };
 
+function getFileExtension(file: File) {
+  const fileNameParts = file.name.split(".");
+
+  if (fileNameParts.length > 1) {
+    return fileNameParts.at(-1)?.toLowerCase() ?? "jpg";
+  }
+
+  const mimeTypeExtension = file.type.split("/").at(-1)?.toLowerCase();
+
+  if (mimeTypeExtension) {
+    return mimeTypeExtension === "jpeg" ? "jpg" : mimeTypeExtension;
+  }
+
+  return "jpg";
+}
+
+function sanitizeFileSegment(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 48);
+}
+
 export function ProductForm({ categories, product }: ProductFormProps) {
   const router = useRouter();
   const [state, setState] = useState<ActionState>(initialActionState);
   const [isPending, setIsPending] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [sizes, setSizes] = useState(
     product?.sizes.length
       ? product.sizes.map((size) => ({
@@ -37,6 +64,44 @@ export function ProductForm({ categories, product }: ProductFormProps) {
     product?.images.map((image) => image.imageUrl) ?? [],
   );
 
+  async function uploadImagesFromDevice(files: File[]) {
+    if (files.length === 0) {
+      return [];
+    }
+
+    const supabase = createBrowserSupabaseClient();
+    const folderName = sanitizeFileSegment(product?.name || "arteez-product");
+    const uploadedUrls: string[] = [];
+
+    for (const [index, file] of files.entries()) {
+      const extension = getFileExtension(file);
+      const fileStem = sanitizeFileSegment(file.name.replace(/\.[^/.]+$/, "")) || "image";
+      const randomSuffix =
+        typeof crypto !== "undefined" && "randomUUID" in crypto
+          ? crypto.randomUUID()
+          : `${Date.now()}-${index}`;
+      const storagePath = `admin-uploads/${folderName}/${randomSuffix}-${fileStem}.${extension}`;
+
+      const { error } = await supabase.storage.from("products").upload(storagePath, file, {
+        cacheControl: "3600",
+        contentType: file.type || "image/jpeg",
+        upsert: false,
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("products").getPublicUrl(storagePath);
+
+      uploadedUrls.push(publicUrl);
+    }
+
+    return uploadedUrls;
+  }
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -45,6 +110,22 @@ export function ProductForm({ categories, product }: ProductFormProps) {
 
     try {
       const submittedFormData = new FormData(event.currentTarget);
+      const imageFiles = submittedFormData
+        .getAll("images")
+        .filter((entry): entry is File => entry instanceof File && entry.size > 0);
+      const uploadedImageUrls = await uploadImagesFromDevice(imageFiles);
+      const allImageUrls = [...existingImages, ...uploadedImageUrls];
+
+      if (uploadedImageUrls.length > 0) {
+        setExistingImages(allImageUrls);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+      }
+
+      submittedFormData.delete("images");
+      submittedFormData.set("existingImages", JSON.stringify(allImageUrls));
+
       const endpoint = product
         ? `/api/admin/products/${product.id}`
         : "/api/admin/products";
@@ -69,10 +150,12 @@ export function ProductForm({ categories, product }: ProductFormProps) {
 
       setState(nextState);
       toast.error(nextState.message || "Unable to save product right now.");
-    } catch {
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Something went wrong while saving the product.";
       const nextState: ActionState = {
         status: "error",
-        message: "Something went wrong while saving the product.",
+        message: errorMessage,
       };
 
       setState(nextState);
@@ -266,7 +349,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
             </div>
           ) : null}
           <FormField label="Upload images">
-            <Input accept="image/*" multiple name="images" type="file" />
+            <Input accept="image/*" multiple name="images" ref={fileInputRef} type="file" />
           </FormField>
         </Card>
 
