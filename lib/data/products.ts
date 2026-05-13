@@ -119,7 +119,6 @@ export async function getCatalogProducts(searchParams: Record<string, string | s
       typeof searchParams.availability === "string"
         ? searchParams.availability
         : undefined,
-    category: typeof searchParams.category === "string" ? searchParams.category : "",
     maxPrice: typeof searchParams.maxPrice === "string" ? searchParams.maxPrice : undefined,
     minPrice: typeof searchParams.minPrice === "string" ? searchParams.minPrice : undefined,
     q: typeof searchParams.q === "string" ? searchParams.q : "",
@@ -127,23 +126,12 @@ export async function getCatalogProducts(searchParams: Record<string, string | s
     sort: typeof searchParams.sort === "string" ? searchParams.sort : undefined,
   }) as CatalogFilters;
 
-  const [categories, products] = await Promise.all([
-    getCategories(),
-    getPublishedProducts(),
-  ]);
-
-  const categoryId = filters.category
-    ? categories.find((category) => category.slug === filters.category)?.id ?? null
-    : null;
+  const products = await getPublishedProducts();
 
   const normalizedQuery = filters.q.toLowerCase().trim();
 
   const filtered = products
     .filter((product) => {
-      if (categoryId && product.categoryId !== categoryId) {
-        return false;
-      }
-
       if (filters.availability === "in_stock" && product.stock <= 0) {
         return false;
       }
@@ -204,17 +192,13 @@ export async function getCatalogProducts(searchParams: Record<string, string | s
 
   return {
     filters,
-    categories,
     products: filtered,
     total: filtered.length,
   };
 }
 
 export async function getHomePageData(): Promise<StorefrontHomeData> {
-  const [categories, products] = await Promise.all([
-    getCategories(),
-    getPublishedProducts(),
-  ]);
+  const products = await getPublishedProducts();
 
   const featuredProducts = products.filter((product) => product.featured).slice(0, 4);
   const bestSellers = [...products]
@@ -225,7 +209,6 @@ export async function getHomePageData(): Promise<StorefrontHomeData> {
     .slice(0, 8);
 
   return {
-    categories,
     featuredProducts,
     bestSellers,
     newArrivals,
@@ -260,13 +243,25 @@ export async function getRelatedProducts(product: ProductRecord) {
 
   return products
     .filter((candidate) => candidate.id !== product.id)
-    .filter((candidate) => {
-      if (product.categoryId && candidate.categoryId === product.categoryId) {
-        return true;
+    .map((candidate) => {
+      let score = 0;
+
+      score += candidate.tags.filter((tag) => product.tags.includes(tag)).length * 3;
+
+      if (candidate.fabric === product.fabric) {
+        score += 2;
       }
 
-      return candidate.tags.some((tag) => product.tags.includes(tag));
+      if (candidate.color === product.color) {
+        score += 1;
+      }
+
+      score += candidate.popularityScore / 100;
+
+      return { candidate, score };
     })
+    .sort((left, right) => right.score - left.score)
+    .map(({ candidate }) => candidate)
     .slice(0, 4);
 }
 

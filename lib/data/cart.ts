@@ -1,6 +1,6 @@
 import "server-only";
 
-import { deliveryFee, freeDeliveryThreshold } from "@/lib/constants/commerce";
+import { deliveryFee } from "@/lib/constants/commerce";
 import type { CheckoutItemInput, CheckoutPricingResult } from "@/lib/data/types";
 import { getCouponByCode, getProductsByIds } from "@/lib/data/products";
 
@@ -43,7 +43,7 @@ export async function priceCheckoutItems(
   });
 
   const subtotal = pricedItems.reduce((total, item) => total + item.lineTotal, 0);
-  const shipping = subtotal >= freeDeliveryThreshold ? 0 : deliveryFee;
+  const shipping = deliveryFee;
   const coupon = couponCode ? await getCouponByCode(couponCode) : null;
 
   let discountAmount = 0;

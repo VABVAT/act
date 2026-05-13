@@ -10,14 +10,12 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { FormField, FormNote } from "@/components/ui/form-field";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import type { CategoryRecord, ProductRecord } from "@/lib/data/types";
+import type { ProductRecord } from "@/lib/data/types";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 import { initialActionState, type ActionState } from "@/lib/utils/action-state";
 
 type ProductFormProps = {
-  categories: CategoryRecord[];
   product?: ProductRecord | null;
 };
 
@@ -46,7 +44,7 @@ function sanitizeFileSegment(value: string) {
     .slice(0, 48);
 }
 
-export function ProductForm({ categories, product }: ProductFormProps) {
+export function ProductForm({ product }: ProductFormProps) {
   const router = useRouter();
   const [state, setState] = useState<ActionState>(initialActionState);
   const [isPending, setIsPending] = useState(false);
@@ -187,16 +185,6 @@ export function ProductForm({ categories, product }: ProductFormProps) {
             </FormField>
             <FormField error={state.fieldErrors?.sku?.[0]} label="SKU">
               <Input defaultValue={product?.sku} name="sku" placeholder="Auto-generated if left blank" />
-            </FormField>
-            <FormField error={state.fieldErrors?.categoryId?.[0]} label="Category">
-              <Select defaultValue={product?.categoryId ?? ""} name="categoryId">
-                <option value="">No category</option>
-                {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
-                ))}
-              </Select>
             </FormField>
             <FormField error={state.fieldErrors?.color?.[0]} label="Color">
               <Input defaultValue={product?.color} name="color" placeholder="Optional for now" />

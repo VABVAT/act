@@ -70,7 +70,7 @@ export function AddToBagPanel({
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand">
-            {product.category?.name || "Suit set"}
+            Arteez Collection
           </p>
           <h1 className="mt-3 font-display text-5xl leading-none text-balance text-foreground md:text-6xl">
             {product.name}

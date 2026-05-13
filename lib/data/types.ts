@@ -48,7 +48,6 @@ export type ProductRecord = {
 
 export type CatalogFilters = {
   availability: "all" | "in_stock" | "out_of_stock";
-  category: string;
   maxPrice: number | null;
   minPrice: number | null;
   q: string;
@@ -57,7 +56,6 @@ export type CatalogFilters = {
 };
 
 export type StorefrontHomeData = {
-  categories: CategoryRecord[];
   featuredProducts: ProductRecord[];
   bestSellers: ProductRecord[];
   newArrivals: ProductRecord[];

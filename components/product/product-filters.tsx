@@ -4,26 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { availabilityOptions, sortOptions, standardSizes } from "@/lib/constants/commerce";
-import type { CatalogFilters, CategoryRecord } from "@/lib/data/types";
+import type { CatalogFilters } from "@/lib/data/types";
 
 export function ProductFilters({
-  categories,
   filters,
 }: {
-  categories: CategoryRecord[];
   filters: CatalogFilters;
 }) {
   return (
-    <form className="grid gap-4 rounded-[28px] border border-line/70 bg-white/70 p-5 shadow-[0_24px_80px_rgba(106,72,56,0.08)] lg:grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr_1fr_auto]">
+    <form className="grid gap-4 rounded-[28px] border border-line/70 bg-white/70 p-5 shadow-[0_24px_80px_rgba(106,72,56,0.08)] lg:grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr_auto]">
       <Input defaultValue={filters.q} name="q" placeholder="Search by name, fabric, colour..." type="search" />
-      <Select defaultValue={filters.category} name="category">
-        <option value="">All categories</option>
-        {categories.map((category) => (
-          <option key={category.id} value={category.slug}>
-            {category.name}
-          </option>
-        ))}
-      </Select>
       <Select defaultValue={filters.size} name="size">
         <option value="">All sizes</option>
         {standardSizes.map((size) => (

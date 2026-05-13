@@ -11,7 +11,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { FormField } from "@/components/ui/form-field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { deliveryFee, freeDeliveryThreshold } from "@/lib/constants/commerce";
+import { deliveryFee } from "@/lib/constants/commerce";
 import { formatCurrency } from "@/lib/utils/currency";
 import { getCartSubtotal, useCartStore } from "@/stores/cart-store";
 
@@ -52,7 +52,7 @@ export function CheckoutPageClient({
   const items = useCartStore((state) => state.items);
   const setCouponCode = useCartStore((state) => state.setCouponCode);
   const subtotal = getCartSubtotal(items);
-  const shipping = subtotal >= freeDeliveryThreshold ? 0 : deliveryFee;
+  const shipping = deliveryFee;
   const estimatedTotal = subtotal + shipping;
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -296,9 +296,9 @@ export function CheckoutPageClient({
               <span className="font-semibold text-foreground">{formatCurrency(subtotal)}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span>Estimated delivery</span>
+              <span>Delivery</span>
               <span className="font-semibold text-foreground">
-                {shipping === 0 ? "Free" : formatCurrency(shipping)}
+                {shipping === 0 ? "Free across India" : formatCurrency(shipping)}
               </span>
             </div>
             <div className="flex items-center justify-between">

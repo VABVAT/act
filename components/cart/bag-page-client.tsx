@@ -6,7 +6,7 @@ import { Minus, Plus, Trash2 } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
-import { deliveryFee, freeDeliveryThreshold } from "@/lib/constants/commerce";
+import { deliveryFee } from "@/lib/constants/commerce";
 import { formatCurrency } from "@/lib/utils/currency";
 import { getCartSubtotal, useCartStore } from "@/stores/cart-store";
 
@@ -34,7 +34,7 @@ export function BagPageClient() {
   }
 
   const subtotal = getCartSubtotal(items);
-  const shipping = subtotal >= freeDeliveryThreshold ? 0 : deliveryFee;
+  const shipping = deliveryFee;
   const total = subtotal + shipping;
 
   return (
@@ -129,9 +129,9 @@ export function BagPageClient() {
               <span className="font-semibold text-foreground">{formatCurrency(subtotal)}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span>Delivery fee</span>
+              <span>Delivery</span>
               <span className="font-semibold text-foreground">
-                {shipping === 0 ? "Free" : formatCurrency(shipping)}
+                {shipping === 0 ? "Free across India" : formatCurrency(shipping)}
               </span>
             </div>
             <div className="flex items-center justify-between border-t border-line pt-3">
@@ -139,11 +139,9 @@ export function BagPageClient() {
               <span className="text-lg font-semibold text-foreground">{formatCurrency(total)}</span>
             </div>
           </div>
-          {subtotal < freeDeliveryThreshold ? (
-            <p className="rounded-2xl bg-brand-soft/35 px-4 py-3 text-sm text-muted">
-              Add {formatCurrency(freeDeliveryThreshold - subtotal)} more to unlock free delivery.
-            </p>
-          ) : null}
+          <p className="rounded-2xl bg-brand-soft/35 px-4 py-3 text-sm text-muted">
+            Free delivery is included on every order, anywhere in India.
+          </p>
           <Link
             href="/checkout"
             className="inline-flex h-12 items-center justify-center rounded-full bg-brand px-6 text-base font-semibold text-white shadow-[0_20px_60px_rgba(154,79,56,0.28)] hover:bg-brand-strong"

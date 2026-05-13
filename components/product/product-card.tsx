@@ -48,7 +48,7 @@ export function ProductCard({
         </div>
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand">
-            {product.category?.name || "Suit set"}
+            Arteez Collection
           </p>
           <Link href={`/shop/${product.slug}`}>
             <h3 className="mt-2 text-lg font-semibold text-foreground transition group-hover:text-brand-strong">

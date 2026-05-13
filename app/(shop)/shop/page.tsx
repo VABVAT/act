@@ -22,12 +22,12 @@ export default async function ShopPage({
   return (
     <div className="content-wrap py-8 md:py-12">
       <SectionHeading
-        description="Browse the complete Arteez Collection catalogue with search, category, size, stock, and sorting controls."
+        description="Browse the complete Arteez Collection catalogue with search, size, stock, price, and sorting controls."
         eyebrow="Shop"
         title="All suits"
       />
       <div className="mt-8">
-        <ProductFilters categories={catalog.categories} filters={catalog.filters} />
+        <ProductFilters filters={catalog.filters} />
       </div>
       <div className="mt-6 flex items-center justify-between text-sm text-muted">
         <p>{catalog.total} products found</p>

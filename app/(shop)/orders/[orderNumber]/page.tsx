@@ -80,9 +80,9 @@ export default async function OrderDetailPage({
               </span>
             </div>
             <div className="flex items-center justify-between">
-              <span>Delivery fee</span>
+              <span>Delivery</span>
               <span className="font-semibold text-foreground">
-                {formatCurrency(order.deliveryFee)}
+                {order.deliveryFee === 0 ? "Free across India" : formatCurrency(order.deliveryFee)}
               </span>
             </div>
             <div className="flex items-center justify-between">

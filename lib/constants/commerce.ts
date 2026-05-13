@@ -1,7 +1,6 @@
 export const standardSizes = ["XS", "S", "M", "L", "XL", "XXL"] as const;
 
-export const deliveryFee = 149;
-export const freeDeliveryThreshold = 5999;
+export const deliveryFee = 0;
 
 export const sortOptions = [
   { value: "newest", label: "Newest" },

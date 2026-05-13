@@ -102,7 +102,7 @@ export default async function AdminOrderDetailPage({
             <div className="flex items-center justify-between">
               <span>Delivery</span>
               <span className="font-semibold text-foreground">
-                {formatCurrency(order.deliveryFee)}
+                {order.deliveryFee === 0 ? "Free across India" : formatCurrency(order.deliveryFee)}
               </span>
             </div>
             <div className="flex items-center justify-between">

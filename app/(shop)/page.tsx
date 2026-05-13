@@ -6,7 +6,6 @@ import {
 } from "@/lib/data/products";
 
 import { AboutPreview } from "@/components/sections/about-preview";
-import { CategoryStrip } from "@/components/sections/category-strip";
 import { HomeHero } from "@/components/sections/home-hero";
 import { ProductCollectionSection } from "@/components/sections/product-collection-section";
 import { RecentlyViewedRail } from "@/components/sections/recently-viewed-rail";
@@ -24,7 +23,6 @@ export default async function HomePage() {
   return (
     <>
       <HomeHero />
-      <CategoryStrip categories={homeData.categories} />
       <ProductCollectionSection
         actionHref="/shop?sort=newest"
         actionLabel="View all"

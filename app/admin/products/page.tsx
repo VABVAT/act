@@ -42,7 +42,7 @@ export default async function AdminProductsPage({
                 {!product.isActive ? <Badge tone="danger">Hidden</Badge> : null}
               </div>
               <p className="mt-2 text-sm text-muted">
-                {product.sku} • {product.category?.name || "No category"} • {product.stock} in stock
+                {product.sku} • {product.stock} in stock
               </p>
               <p className="mt-2 text-sm font-semibold text-foreground">
                 {formatCurrency(product.effectivePrice)}
