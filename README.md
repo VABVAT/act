@@ -1,12 +1,11 @@
 # Arteez Collection
 
-Arteez Collection is a production-ready women’s suit marketplace built with Next.js App Router, Supabase, Razorpay, Tailwind CSS, and TypeScript.
+Arteez Collection is a production-ready women’s suit storefront built with Next.js App Router, Supabase, Tailwind CSS, and TypeScript, using WhatsApp as the primary inquiry channel.
 
 ## Stack
 
 - Next.js 16 App Router
 - Supabase Auth + Postgres + Storage
-- Razorpay checkout + backend verification
 - Tailwind CSS v4
 - Zustand for client-side bag and recently viewed state
 - Zod validation for forms and APIs
@@ -16,8 +15,8 @@ Arteez Collection is a production-ready women’s suit marketplace built with Ne
 - Premium storefront with homepage, catalog, search, filters, product detail, recommendations, and recently viewed products
 - Wishlist backed by Supabase for authenticated users
 - Hybrid bag flow: guest-friendly local persistence plus automatic sync to Supabase for signed-in users
-- Checkout flow with Razorpay order creation, signature verification, failure handling, and webhook reconciliation
-- My Orders pages with order history, statuses, and invoice-friendly detail view
+- WhatsApp-first inquiry flow from product pages and the bag page, with prefilled product details
+- My Orders pages for historical order records already linked to customer accounts
 - Protected admin dashboard with revenue/order metrics, product CRUD, inventory management, and order status updates
 - Supabase SQL migration, row-level security policies, storage bucket policies, and seed data
 
@@ -66,32 +65,23 @@ Arteez Collection is a production-ready women’s suit marketplace built with Ne
 - `NEXT_PUBLIC_SITE_URL`: public site URL, for example `https://arteezcollection.in`
 - `NEXT_PUBLIC_SUPABASE_URL`: Supabase project URL
 - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`: Supabase publishable anon key
-- `SUPABASE_SECRET_KEY`: Supabase secret/service-role key for admin operations and webhooks
-- `NEXT_PUBLIC_RAZORPAY_KEY_ID`: Razorpay public key
-- `RAZORPAY_KEY_SECRET`: Razorpay secret key
-- `RAZORPAY_WEBHOOK_SECRET`: webhook secret used by `/api/webhooks/razorpay`
+- `SUPABASE_SECRET_KEY`: Supabase secret/service-role key for admin operations and no-verification account creation
 - `NEXT_PUBLIC_WHATSAPP_NUMBER`: support number used for storefront chat links
 
 ## Supabase Notes
 
 - Auth users are mirrored into `public.profiles` through a trigger.
+- Customer sign-up uses the service role to create confirmed accounts immediately, so email verification is not required.
 - Product images are stored in a public `products` storage bucket.
 - Inventory is tracked per size in `public.product_sizes`; product stock is synced automatically by trigger.
-- Pending orders reserve inventory through the `create_pending_order` RPC and failed payments release inventory with `release_inventory_for_order`.
 - In Supabase Auth URL Configuration, set the Site URL to `https://arteezcollection.in` and allow redirects for `https://arteezcollection.in/auth/confirm`.
 
-## Email Templates
+## Inquiry Flow
 
-- A ready-to-paste confirmation template is included at [`supabase/email-templates/confirm-signup.html`](/Users/sid/Webstorm/ac/supabase/email-templates/confirm-signup.html).
-- Supabase dashboard setup notes are included at [`supabase/email-templates/README.md`](/Users/sid/Webstorm/ac/supabase/email-templates/README.md).
-
-## Payment Flow
-
-- The checkout page creates a Razorpay order from the server after pricing bag items against the database.
-- The app stores a pending order and payment row in Supabase before opening checkout.
-- Successful payments are verified server-side and marked paid in both `orders` and `payments`.
-- Failed or dismissed checkouts mark the order as failed and restore reserved inventory.
-- Webhooks provide an additional reconciliation layer for captured or failed payments.
+- Product pages offer direct WhatsApp inquiries with product name, size, color, quantity, price, and product link.
+- The bag page composes a single WhatsApp inquiry with every selected item and the estimated total.
+- Guest users can inquire without creating an account.
+- Logged-in users still get wishlist sync and bag persistence across sessions.
 
 ## Important Paths
 

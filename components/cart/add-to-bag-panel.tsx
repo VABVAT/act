@@ -1,8 +1,8 @@
 "use client";
 
-import { startTransition, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ShoppingBag } from "lucide-react";
+import { MessageCircle, ShoppingBag } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { WishlistToggleButton } from "@/components/wishlist/wishlist-toggle-button";
 import type { ProductRecord } from "@/lib/data/types";
 import { formatCurrency } from "@/lib/utils/currency";
+import { buildProductInquiryMessage, buildWhatsAppUrl } from "@/lib/utils/whatsapp";
 import { useCartStore } from "@/stores/cart-store";
 
 export function AddToBagPanel({
@@ -33,7 +34,7 @@ export function AddToBagPanel({
   const availableSize = product.sizes.find((size) => size.size === selectedSize);
   const isOutOfStock = product.stock <= 0 || !availableSize || availableSize.quantity <= 0;
 
-  const handleAdd = (redirectToCheckout = false) => {
+  const handleAdd = () => {
     if (!selectedSize) {
       toast.error("Please select a size.");
       return;
@@ -58,11 +59,31 @@ export function AddToBagPanel({
       sku: product.sku,
     });
 
-    toast.success(redirectToCheckout ? "Taking you to checkout." : "Added to bag.");
+    toast.success("Added to bag.");
+    router.push("/bag");
+  };
 
-    startTransition(() => {
-      router.push(redirectToCheckout ? "/checkout" : "/bag");
-    });
+  const handleInquiry = () => {
+    const inquiryUrl = buildWhatsAppUrl(
+      buildProductInquiryMessage({
+        color: product.color,
+        name: product.name,
+        price: product.effectivePrice,
+        quantity,
+        selectedSize,
+        url:
+          typeof window !== "undefined"
+            ? `${window.location.origin}/shop/${product.slug}`
+            : undefined,
+      }),
+    );
+
+    if (!inquiryUrl) {
+      toast.error("WhatsApp inquiry is not configured yet.");
+      return;
+    }
+
+    window.location.assign(inquiryUrl);
   };
 
   return (
@@ -142,12 +163,13 @@ export function AddToBagPanel({
         </div>
       </div>
       <div className="mt-8 grid gap-3 sm:grid-cols-2">
-        <Button disabled={isOutOfStock} size="lg" onClick={() => handleAdd(false)}>
+        <Button disabled={isOutOfStock} size="lg" onClick={handleAdd}>
           <ShoppingBag className="size-4" />
           Add to bag
         </Button>
-        <Button disabled={isOutOfStock} size="lg" variant="secondary" onClick={() => handleAdd(true)}>
-          Buy now
+        <Button size="lg" variant="secondary" onClick={handleInquiry}>
+          <MessageCircle className="size-4" />
+          Inquire on WhatsApp
         </Button>
       </div>
       <div className="mt-8 grid gap-4 rounded-[24px] border border-line/70 bg-background-soft px-5 py-4 text-sm text-muted">

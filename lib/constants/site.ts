@@ -32,6 +32,6 @@ export const aboutHighlights = [
 export const trustPoints = [
   "Premium fabrics and considered finishing",
   "Size-wise stock tracking for every product",
-  "Secure checkout with Razorpay",
+  "Direct WhatsApp inquiry for every product",
   "Responsive support over WhatsApp",
 ] as const;

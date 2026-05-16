@@ -16,7 +16,7 @@ export default async function OrdersPage() {
   return (
     <div className="content-wrap py-8 md:py-12">
       <SectionHeading
-        description="Track payment, dispatch, and delivery updates for every purchase."
+        description="Track dispatch and delivery updates for confirmed purchases linked to your account."
         eyebrow="My orders"
         title="Order history"
       />
@@ -61,7 +61,7 @@ export default async function OrdersPage() {
         ) : (
           <EmptyState
             title="No orders yet"
-            description="Once you place an order, it will show up here with payment and delivery status."
+            description="Any confirmed orders linked to your account will appear here with their latest status."
             action={
               <Link
                 href="/shop"

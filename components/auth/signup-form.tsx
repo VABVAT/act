@@ -12,40 +12,6 @@ import { initialActionState } from "@/lib/utils/action-state";
 export function SignupForm({ nextPath = "/" }: { nextPath?: string }) {
   const [state, action] = useActionState(signupAction, initialActionState);
 
-  if (state.status === "success") {
-    return (
-      <div className="grid gap-5">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-brand">
-            Check your email
-          </p>
-          <h2 className="mt-3 font-display text-4xl leading-none text-foreground">
-            Confirm your account to continue
-          </h2>
-        </div>
-        <div className="rounded-[24px] border border-line bg-white/80 p-5">
-          <FormNote tone="success">{state.message}</FormNote>
-          <div className="mt-4 grid gap-2 text-sm leading-7 text-muted">
-            <p>1. Open the inbox for the email address you just used.</p>
-            <p>2. Find the Arteez Collection confirmation email.</p>
-            <p>3. Press the confirmation button in the email.</p>
-            <p>4. You will be brought back to Arteez Collection and can continue.</p>
-            <p>If you do not see it, check your spam or promotions folder.</p>
-          </div>
-        </div>
-        <p className="text-sm text-muted">
-          Already confirmed your email?{" "}
-          <Link
-            href={`/login${nextPath ? `?next=${encodeURIComponent(nextPath)}` : ""}`}
-            className="font-semibold text-foreground"
-          >
-            Login
-          </Link>
-        </p>
-      </div>
-    );
-  }
-
   return (
     <form action={action} className="grid gap-5">
       <div>
@@ -55,6 +21,9 @@ export function SignupForm({ nextPath = "/" }: { nextPath?: string }) {
         <h2 className="mt-3 font-display text-4xl leading-none text-foreground">
           Start your Arteez account
         </h2>
+        <p className="mt-3 text-sm text-muted">
+          No email verification required. Create your account and continue right away.
+        </p>
       </div>
       <input name="next" type="hidden" value={nextPath} />
       <FormField error={state.fieldErrors?.fullName?.[0]} label="Full name">

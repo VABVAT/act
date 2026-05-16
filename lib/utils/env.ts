@@ -33,12 +33,6 @@ export function isSupabaseAdminConfigured() {
   );
 }
 
-export function isRazorpayConfigured() {
-  return Boolean(
-    process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET,
-  );
-}
-
 export function getSupabasePublicEnv() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const publishableKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
@@ -62,22 +56,9 @@ export function getSupabaseAdminEnv() {
   return { url, secretKey };
 }
 
-export function getRazorpayEnv() {
-  const keyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
-  const keySecret = process.env.RAZORPAY_KEY_SECRET;
-  const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
-
-  if (!keyId || !keySecret) {
-    throw new Error("Razorpay environment variables are missing.");
-  }
-
-  return { keyId, keySecret, webhookSecret };
-}
-
 export function getRuntimeFlags() {
   return {
     supabase: isSupabaseConfigured(),
     supabaseAdmin: isSupabaseAdminConfigured(),
-    razorpay: isRazorpayConfigured(),
   };
 }

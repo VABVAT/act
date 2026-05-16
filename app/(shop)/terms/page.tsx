@@ -14,7 +14,8 @@ export default function TermsPage() {
         </h1>
         <div className="mt-6 grid gap-6 text-sm leading-8 text-muted md:text-base">
           <p>
-            Orders are confirmed after successful payment verification and are subject to size-wise stock availability.
+            Product inquiries and order confirmations are coordinated directly with
+            Arteez Collection over WhatsApp and remain subject to size-wise stock availability.
           </p>
           <p>
             Estimated delivery timelines are shared on product pages and may vary based on destination and dispatch load.
@@ -23,7 +24,8 @@ export default function TermsPage() {
             Customers should review size selection carefully before placing an order. Return and exchange eligibility depends on product condition and the published return window.
           </p>
           <p>
-            Arteez Collection reserves the right to cancel or refund orders affected by pricing issues, payment failures, or inventory discrepancies.
+            Arteez Collection reserves the right to decline, update, or cancel inquiries
+            affected by pricing issues, availability changes, or inventory discrepancies.
           </p>
         </div>
       </div>

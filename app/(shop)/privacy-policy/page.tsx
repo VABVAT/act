@@ -12,16 +12,19 @@ export default function PrivacyPolicyPage() {
         <h1 className="font-display text-5xl leading-none text-foreground">Privacy Policy</h1>
         <div className="mt-6 grid gap-6 text-sm leading-8 text-muted md:text-base">
           <p>
-            Arteez Collection collects only the information needed to fulfil orders,
-            coordinate delivery, support customer accounts, and improve the shopping experience.
+            Arteez Collection collects only the information needed to respond to
+            customer inquiries, coordinate delivery, support customer accounts, and
+            improve the shopping experience.
           </p>
           <p>
             Information such as your name, email, phone number, address, and order details
-            is used for checkout, delivery communication, payment verification, and customer support.
+            is used for WhatsApp inquiries, delivery communication, account support,
+            and customer assistance.
           </p>
           <p>
-            We do not sell personal information to third parties. Payment information is
-            processed securely through Razorpay and is not stored directly by our storefront.
+            We do not sell personal information to third parties. Payments are not
+            processed inside this storefront. Final purchase coordination happens
+            directly with Arteez Collection after the customer reaches out.
           </p>
           <p>
             You may contact us to request updates to your account information or to ask

@@ -21,6 +21,9 @@ export function LoginForm({ nextPath = "/" }: { nextPath?: string }) {
         <h2 className="mt-3 font-display text-4xl leading-none text-foreground">
           Login to continue
         </h2>
+        <p className="mt-3 text-sm text-muted">
+          WhatsApp inquiries work without login. Sign in only if you want to save your wishlist and details.
+        </p>
       </div>
       <input name="next" type="hidden" value={nextPath} />
       <FormField error={state.fieldErrors?.email?.[0]} label="Email">

@@ -9,16 +9,15 @@ export const mainNavigation = [
 export const footerNavigation = [
   { label: "Shop", href: "/shop" },
   { label: "Wishlist", href: "/wishlist" },
-  { label: "My Orders", href: "/orders" },
   { label: "About", href: "/about" },
   { label: "Privacy Policy", href: "/privacy-policy" },
   { label: "Terms & Conditions", href: "/terms" },
 ] as const;
 
 export const accountNavigation = [
-  { label: "My Orders", href: "/orders" },
   { label: "Wishlist", href: "/wishlist" },
   { label: "Bag", href: "/bag" },
+  { label: "Contact", href: "/contact" },
 ] as const;
 
 export const adminNavigation = [

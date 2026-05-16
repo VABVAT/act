@@ -2,12 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Minus, Plus, Trash2 } from "lucide-react";
+import { MessageCircle, Minus, Plus, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { deliveryFee } from "@/lib/constants/commerce";
 import { formatCurrency } from "@/lib/utils/currency";
+import { buildCartInquiryMessage, buildWhatsAppUrl } from "@/lib/utils/whatsapp";
 import { getCartSubtotal, useCartStore } from "@/stores/cart-store";
 
 export function BagPageClient() {
@@ -36,6 +38,20 @@ export function BagPageClient() {
   const subtotal = getCartSubtotal(items);
   const shipping = deliveryFee;
   const total = subtotal + shipping;
+  const inquiryUrl = items.length > 0 ? buildWhatsAppUrl(buildCartInquiryMessage(items)) : null;
+
+  function handleInquiry() {
+    if (!items.length) {
+      return;
+    }
+
+    if (!inquiryUrl) {
+      toast.error("WhatsApp inquiry is not configured yet.");
+      return;
+    }
+
+    window.location.assign(inquiryUrl);
+  }
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
@@ -142,12 +158,15 @@ export function BagPageClient() {
           <p className="rounded-2xl bg-brand-soft/35 px-4 py-3 text-sm text-muted">
             Free delivery is included on every order, anywhere in India.
           </p>
-          <Link
-            href="/checkout"
-            className="inline-flex h-12 items-center justify-center rounded-full bg-brand px-6 text-base font-semibold text-white shadow-[0_20px_60px_rgba(154,79,56,0.28)] hover:bg-brand-strong"
+          <button
+            className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 text-base font-semibold text-white shadow-[0_20px_60px_rgba(37,211,102,0.28)] hover:bg-[#1ebe5b] disabled:cursor-not-allowed disabled:opacity-60"
+            disabled={!items.length || !inquiryUrl}
+            type="button"
+            onClick={handleInquiry}
           >
-            Continue to checkout
-          </Link>
+            <MessageCircle className="size-4" />
+            Inquire via WhatsApp
+          </button>
           <Link
             href="/shop"
             className="inline-flex h-12 items-center justify-center rounded-full border border-line bg-white px-6 text-base font-semibold text-foreground hover:border-brand/30 hover:bg-brand-soft/35"

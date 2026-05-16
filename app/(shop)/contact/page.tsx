@@ -22,8 +22,8 @@ export default function ContactPage() {
             Need sizing help, styling advice, or order support?
           </h1>
           <p className="mt-6 text-sm leading-8 text-muted md:text-lg">
-            Reach out to Arteez Collection for product questions, order assistance, or
-            quick WhatsApp support before you place your order.
+            Reach out to Arteez Collection for product questions, availability checks,
+            or direct WhatsApp inquiries about anything you want to buy.
           </p>
         </div>
         <div className="rounded-[28px] bg-background-soft p-6">

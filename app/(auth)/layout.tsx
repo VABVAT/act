@@ -19,21 +19,21 @@ export default function AuthLayout({
               Arteez Collection
             </span>
             <h1 className="mt-6 max-w-lg font-display text-5xl leading-none text-balance md:text-6xl">
-              Sign in to save favourites, orders, and a smoother checkout.
+              Save your favourites and come back faster whenever you need them.
             </h1>
             <p className="mt-5 max-w-md text-sm leading-7 text-white/78 md:text-base">
-              Create your account to manage wishlists, track every order, and carry
-              your selections forward across sessions.
+              Create an account to keep your wishlist and profile details handy.
+              WhatsApp inquiries are always available even if you stay signed out.
             </p>
             <div className="mt-8 flex flex-wrap gap-3 text-sm text-white/80">
               <span className="rounded-full border border-white/15 px-4 py-2">
                 Wishlist sync
               </span>
               <span className="rounded-full border border-white/15 px-4 py-2">
-                Order history
+                Faster repeat visits
               </span>
               <span className="rounded-full border border-white/15 px-4 py-2">
-                Secure checkout
+                Saved profile details
               </span>
             </div>
             <p className="mt-12 text-sm text-white/70">

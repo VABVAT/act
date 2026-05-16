@@ -5,7 +5,7 @@ export default function BagPage() {
   return (
     <div className="content-wrap py-8 md:py-12">
       <SectionHeading
-        description="Review sizes, update quantities, and move into a secure Razorpay checkout."
+        description="Review your selections, update quantities, and send a WhatsApp inquiry in a few taps."
         eyebrow="Bag"
         title="Your shopping bag"
       />

@@ -58,7 +58,7 @@ export function SiteHeader({
             </Link>
             {isAuthenticated ? (
               <Link
-                href="/orders"
+                href="/wishlist"
                 className="inline-flex size-11 items-center justify-center rounded-full border border-line bg-white/70 text-foreground hover:border-brand/30 hover:bg-brand-soft/35 md:hidden"
                 aria-label="My account"
               >
@@ -76,7 +76,7 @@ export function SiteHeader({
             {isAuthenticated ? (
               <div className="hidden items-center gap-2 md:flex">
                 <Link
-                  href="/orders"
+                  href="/wishlist"
                   className="inline-flex items-center gap-2 rounded-full border border-line bg-white/70 px-4 py-2.5 text-sm font-semibold text-foreground hover:border-brand/30 hover:bg-brand-soft/35"
                 >
                   <UserRound className="size-4" />
@@ -113,8 +113,8 @@ export function SiteHeader({
           ))}
           {isAuthenticated ? (
             <>
-              <Link href="/orders" className="whitespace-nowrap text-foreground md:hidden">
-                My Orders
+              <Link href="/wishlist" className="whitespace-nowrap text-foreground md:hidden">
+                Wishlist
               </Link>
               <form action={logoutAction} className="md:hidden">
                 <button className="whitespace-nowrap text-foreground" type="submit">
